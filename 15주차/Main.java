@@ -1,55 +1,46 @@
-package boj_14225;
+package boj_14719;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 public class Main {
 
-	static int N;
+	static int H,W;
 	static int arr[];
-	static Set<Integer> set=new HashSet<>();
 	public static void main(String[] args) throws IOException{
 		BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
-		
-		N=Integer.parseInt(br.readLine());
-		arr=new int[N];
 		StringTokenizer st= new StringTokenizer(br.readLine());
-		for(int i=0;i<N;i++)
+		H=Integer.parseInt(st.nextToken());
+		W=Integer.parseInt(st.nextToken());
+		arr=new int[W];
+		st=new StringTokenizer(br.readLine());
+		for(int i=0;i<W;i++)
 		{
 			arr[i]=Integer.parseInt(st.nextToken());
 		}
-		
-		dfs(0,0);
-		int result=1;
-		while(true)
+		int left=0;
+		int right=0;
+		int result=0;
+		for(int i=1;i<W-1;i++)
 		{
-			if(set.contains(result))
+			left=right=0;
+			for(int j=0;j<i;j++)
 			{
-				result++;
+				left=Math.max(arr[j], left);
 			}
-			else
+			for(int j=i+1;j<W;j++)
 			{
-				break;
+				right=Math.max(arr[j], right);
+			}
+			
+			if(arr[i]<left&&arr[i]<right)
+			{
+				result+=Math.min(left, right)-arr[i];
 			}
 		}
 		System.out.println(result);
 	}
 
-	static void dfs(int cnt,int sum)
-	{
-		if(cnt==N)
-		{
-			set.add(sum);
-		}
-		else
-		{
-			dfs(cnt+1,sum+arr[cnt]);
-			dfs(cnt+1,sum);
-		}
-		
-	}
 }
